@@ -79,6 +79,7 @@ class HttpClient:
                     raise ServerError(response.status, response.reason)
                 try:
                     data = await response.json()
+                    await self.close()
                 except JSONDecodeError:
                     raise CommonError("response is not json format")
                 # code = data.get("code", None)
