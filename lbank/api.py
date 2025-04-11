@@ -79,7 +79,6 @@ class HttpClient:
                     raise ServerError(response.status, response.reason)
                 try:
                     data = await response.json()
-                    await self.close()
                 except JSONDecodeError:
                     raise CommonError("response is not json format")
                 # code = data.get("code", None)
@@ -90,6 +89,7 @@ class HttpClient:
                 #         data.get("error_message", ""),
                 #     )
                 return data
+                await self.close()
         except aiohttp.ClientError as e:
             raise CommonError(str(e))
 
